@@ -1,0 +1,9 @@
+﻿- keymapping window
+
+- make navball clicking work (surface vs orbital)
+- make navball show/hide button work
+
+
+DONE
+- tie jetpack power into throttle gauge
+- make RCS indicator work

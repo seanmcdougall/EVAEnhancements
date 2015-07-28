@@ -1,4 +1,9 @@
-﻿using System;
+﻿/* Adapted from https://github.com/AlexanderDzhoganov/ksp-advanced-flybywire/blob/master/EVAController.cs under terms of MIT license
+ * Original Copyright (c) 2014 Alexander Dzhoganov
+ * Modifications Copyright (c) 2015 Sean McDougall
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,15 +37,16 @@ namespace EVAEnhancements
             LoadReflectionFields();
         }
 
-        public void UpdateEVAFlightProperties(float pitch, float yaw, float roll)
+        public void UpdateEVAFlightProperties(float pitch, float roll, float power)
         {
             KerbalEVA eva = FlightGlobals.ActiveVessel.GetComponent<KerbalEVA>();
             if (!FlightGlobals.ActiveVessel.Landed && eva.JetpackDeployed)
             {
                 Quaternion rotation = Quaternion.identity;
-                rotation *= Quaternion.AngleAxis(eva.turnRate * pitch * EVARotationStep * Time.deltaTime, -eva.transform.right);
-                rotation *= Quaternion.AngleAxis(eva.turnRate * yaw * EVARotationStep * Time.deltaTime, eva.transform.up);
-                rotation *= Quaternion.AngleAxis(eva.turnRate * roll * EVARotationStep * Time.deltaTime, -eva.transform.forward);
+                rotation *= Quaternion.AngleAxis(eva.turnRate * pitch * EVARotationStep * Time.deltaTime * power, -eva.transform.right);
+                rotation *= Quaternion.AngleAxis(0, eva.transform.up);
+                rotation *= Quaternion.AngleAxis(eva.turnRate * roll * EVARotationStep * Time.deltaTime * power, -eva.transform.forward);
+                
                 if (rotation != Quaternion.identity)
                 {
                     this.vectorFields[8].SetValue(eva, rotation * (Vector3)this.vectorFields[8].GetValue(eva));

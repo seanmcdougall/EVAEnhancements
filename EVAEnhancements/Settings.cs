@@ -32,5 +32,8 @@ namespace EVAEnhancements
         [Persistent]
         public KeyCode rollRight = KeyCode.C;
 
+        [Persistent]
+        public float precisionFactor = 0.1f;
+
     }
 }
