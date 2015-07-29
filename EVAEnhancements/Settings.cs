@@ -18,7 +18,7 @@ namespace EVAEnhancements
         public float maxJetPackPower = 1f;
 
         [Persistent]
-        public float stepJetPackPower = 0.01f;
+        public float stepJetPackPower = 0.05f;
 
         [Persistent]
         public KeyCode pitchDown = KeyCode.Alpha2;

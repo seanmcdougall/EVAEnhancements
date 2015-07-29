@@ -16,7 +16,7 @@ namespace EVAEnhancements
     class EVAController
     {
 
-        private const float EVARotationStep = 30f;
+        private const float EVARotationStep = 57.29578f;
         private List<FieldInfo> vectorFields;
         private static EVAController instance;
 

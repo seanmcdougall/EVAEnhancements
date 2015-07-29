@@ -9,9 +9,24 @@ namespace EVAEnhancements
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class EVAEnhancementsBehaviour : MonoBehaviour
     {
-        public void LateUpdate()
+        bool showDebug = false;
+        public void Update()
         {
             // do stuff
+            if (showDebug)
+            {
+
+            }
+
+        }
+        public void LateUpdate()
+        {
+            if (showDebug)
+            {
+
+            }
+            // do stuff
+
         }
     }
 
@@ -36,14 +51,14 @@ namespace EVAEnhancements
         internal float origRotPower = 0f;
         internal float origPropConsumption = 0f;
 
-        // Pointer to EVA module
+        // Pointers to various objects
         internal KerbalEVA eva = null;
+        internal GameObject navBall;
+        internal NavBall ball;
 
-        GameObject navBall;
-        NavBall ball;
-
-        // First run flag
+        // Flags
         internal bool first = true;
+        internal bool expandUI = true;
 
         public override void OnStart(PartModule.StartState state)
         {
@@ -66,10 +81,7 @@ namespace EVAEnhancements
 
             // Find the navball
             navBall = GameObject.Find("NavBall");
-            if (navBall != null)
-            {
-                ball = navBall.GetComponent<NavBall>();
-            }
+            ball = navBall.GetComponent<NavBall>();
 
         }
 
@@ -78,12 +90,8 @@ namespace EVAEnhancements
             // Only run processing if the EVA'd Kerbal is the active vessel
             if (this.vessel == FlightGlobals.ActiveVessel)
             {
-                if (first)
-                {
-                    eva = FlightGlobals.ActiveVessel.GetComponent<KerbalEVA>();
-                }
-
                 // Toggle precision node
+                // TODO: maybe replace these messages with a different indicator
                 if (GameSettings.PRECISION_CTRL.GetKeyDown())
                 {
                     precisionControls = !precisionControls;
@@ -96,6 +104,19 @@ namespace EVAEnhancements
                         ScreenMessages.PostScreenMessage("Precision Controls: Disabled", 2f, ScreenMessageStyle.UPPER_CENTER);
                     }
                 }
+
+                // Toggle Rotate on Move
+                if (GameSettings.SAS_TOGGLE.GetKeyDown())
+                {
+                    rotateOnMove = !rotateOnMove;
+                }
+
+                // Set point to KerbalEVA
+                if (eva == null)
+                {
+                    eva = FlightGlobals.ActiveVessel.GetComponent<KerbalEVA>();
+                }
+
 
                 if (eva.JetpackDeployed)
                 {
@@ -143,44 +164,63 @@ namespace EVAEnhancements
                 }
 
             }
-
             base.OnUpdate();
         }
 
         internal void LateUpdate()
         {
-            if (this.vessel == FlightGlobals.ActiveVessel) {
-                if (ball != null)
+            if (this.vessel == FlightGlobals.ActiveVessel && eva != null)
+            {
+                // Change rotation offset so it points in the direction the Kerbal is facing
+                ball.rotationOffset = new Vector3(0, 0, 0);
+
+                if (expandUI)
                 {
-                    // Make navball visible
-                    navBall.transform.parent.parent.parent.position = new Vector3(navBall.transform.parent.parent.parent.position.x, 0f, navBall.transform.parent.parent.parent.position.z);
-                    // Change rotation offset so it points in the direction the kerbal is facing
-                    ball.rotationOffset = new Vector3(0, 0, 0);
+                    // Display navball
+                    foreach (ScreenSafeUISlideTab tab in FlightEVA.fetch.EVACollapseGroups)
+                    {
+                        if (tab.name == "EVACollapse_navball")
+                            tab.Expand();
+                    }
+                    expandUI = false;
                 }
-            
+
+
                 if (eva.JetpackDeployed)
                 {
                     // Set throttle to jetpack power
                     if (precisionControls)
                     {
-                        FlightUIController.fetch.thr.setValue(jetPackPower*0.1f);
+                        FlightUIController.fetch.thr.setValue(jetPackPower * settings.precisionFactor);
                     }
                     else
                     {
                         FlightUIController.fetch.thr.setValue(jetPackPower);
                     }
-                    ScreenSafeUIButton b = FlightUIController.fetch.spdModeToggleBtn;
 
                     // Turn on RCS light
                     FlightUIController.fetch.rcs.renderer.material.mainTexture = FlightUIController.fetch.rcs.ledColors[1];
+
                 }
                 else
                 {
+                    // Set throttle to 0 and turn off RCS light
                     FlightUIController.fetch.thr.setValue(0f);
                     FlightUIController.fetch.rcs.renderer.material.mainTexture = FlightUIController.fetch.rcs.ledColors[0];
                 }
+
+                // Toggle SAS light for "EVA Rotate on Move"
+                if (GameSettings.EVA_ROTATE_ON_MOVE)
+                {
+                    FlightUIController.fetch.SAS.renderer.material.mainTexture = FlightUIController.fetch.SAS.ledColors[1];
+                }
+                else
+                {
+                    FlightUIController.fetch.SAS.renderer.material.mainTexture = FlightUIController.fetch.SAS.ledColors[0];
+                }
+
             }
-            
+
         }
 
     }

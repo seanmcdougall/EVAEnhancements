@@ -1,9 +1,9 @@
 ﻿- keymapping window
 
-- make navball clicking work (surface vs orbital)
-- make navball show/hide button work
-
-
 DONE
 - tie jetpack power into throttle gauge
 - make RCS indicator work
+- make navball show/hide button work
+- make navball clicking work (surface vs orbital vs target)
+- use SAS indicator for "rotate to camera" mode
+- link SAS hotkey as well
