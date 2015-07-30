@@ -14,7 +14,8 @@ namespace EVAEnhancements
 
         public void Update()
         {
-            if (navBall == null) {
+            if (navBall == null)
+            {
                 // Get a pointer to the navball
                 navBall = GameObject.Find("NavBall");
                 ball = navBall.GetComponent<NavBall>();
@@ -57,11 +58,7 @@ namespace EVAEnhancements
 
         // Pointers to various objects
         internal KerbalEVA eva = null;
-        internal ScreenSafeUISlideTab navBallTab;
-
-        // Flags
-        internal bool first = true;
-        internal bool expandUI = true;
+        internal static ScreenSafeUISlideTab navBallTab = null;
 
         public override void OnStart(PartModule.StartState state)
         {
@@ -76,7 +73,7 @@ namespace EVAEnhancements
             this.Fields["kerbalProfession"].guiName = myKerbal.experienceTrait.Title;
             kerbalProfession = "Level " + myKerbal.experienceLevel.ToString();
 
-            
+
 
         }
 
@@ -116,24 +113,24 @@ namespace EVAEnhancements
 
                 if (eva.JetpackDeployed)
                 {
-                    if (first)
+                    if (origLinPower == 0f)
                     {
                         // Grab original values
                         origLinPower = eva.linPower;
                         origRotPower = eva.rotPower;
                         origPropConsumption = eva.PropellantConsumption;
-                        first = false;
                     }
 
                     // Make sure this is set properly
                     GameSettings.EVA_ROTATE_ON_MOVE = rotateOnMove;
 
                     // Determine current jetpack power
-                    
                     if (precisionControls)
                     {
                         currentPower = settings.precisionModePower;
-                    } else {
+                    }
+                    else
+                    {
                         currentPower = jetPackPower;
                     }
 
@@ -144,27 +141,18 @@ namespace EVAEnhancements
 
                     // Detect key presses
                     if (Input.GetKey(settings.pitchDown))
-                    {
-                        EVAController.Instance.UpdateEVAFlightProperties(-1, 0, currentPower);
-
-                    }
+                        EVAController.Instance.UpdateEVAFlightProperties(-1, 0, jetPackPower);
                     if (Input.GetKey(settings.pitchUp))
-                    {
-                        EVAController.Instance.UpdateEVAFlightProperties(1, 0, currentPower);
-                    }
+                        EVAController.Instance.UpdateEVAFlightProperties(1, 0, jetPackPower);
                     if (Input.GetKey(settings.rollLeft))
-                    {
-                        EVAController.Instance.UpdateEVAFlightProperties(0, -1, currentPower);
-                    }
+                        EVAController.Instance.UpdateEVAFlightProperties(0, -1, jetPackPower);
                     if (Input.GetKey(settings.rollRight))
-                    {
-                        EVAController.Instance.UpdateEVAFlightProperties(0, 1, currentPower);
-                    }
+                        EVAController.Instance.UpdateEVAFlightProperties(0, 1, jetPackPower);
 
                 }
 
             }
-            
+
         }
 
         internal void LateUpdate()
@@ -172,17 +160,14 @@ namespace EVAEnhancements
             // Only process is this is current vessel and the eva pointer was set previously
             if (this.vessel == FlightGlobals.ActiveVessel && eva != null)
             {
-                
-
                 // Display the navball
-                if (expandUI)
+                if (navBallTab == null)
                 {
                     foreach (ScreenSafeUISlideTab tab in FlightEVA.fetch.EVACollapseGroups)
                     {
                         if (tab.name == "EVACollapse_navball")
                             navBallTab = tab;
                     }
-                    expandUI = false;
                 }
                 navBallTab.Expand();
 
