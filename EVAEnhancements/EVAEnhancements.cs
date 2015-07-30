@@ -9,34 +9,38 @@ namespace EVAEnhancements
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class EVAEnhancementsBehaviour : MonoBehaviour
     {
-        bool showDebug = false;
+        internal static GameObject navBall = null;
+        internal static NavBall ball = null;
+
         public void Update()
         {
-            // do stuff
-            if (showDebug)
-            {
-
+            if (navBall == null) {
+                // Get a pointer to the navball
+                navBall = GameObject.Find("NavBall");
+                ball = navBall.GetComponent<NavBall>();
             }
-
-        }
-        public void LateUpdate()
-        {
-            if (showDebug)
+            if (FlightGlobals.ActiveVessel.isEVA)
             {
-
+                // Change rotation offset so it points in the direction the Kerbal is facing
+                ball.rotationOffset = new Vector3(0, 0, 0);
             }
-            // do stuff
+            else
+            {
+                ball.rotationOffset = new Vector3(90f, 0, 0);
+            }
 
         }
     }
+
 
     public class EVAEnhancements : PartModule
     {
         [KSPField(guiActive = true, guiName = "Profession", isPersistant = true)]
         public string kerbalProfession = null;
 
-        [KSPField(guiName = "Jetpack", guiFormat = "P0", guiActive = true, isPersistant = true), UI_FloatRange(minValue = 0.01f, maxValue = 1f, stepIncrement = 0.01f)]
+        [KSPField(guiName = "Jetpack", guiFormat = "P0", guiActive = true, isPersistant = true), UI_FloatRange(minValue = 0.01f, maxValue = 1f, stepIncrement = 0.05f)]
         public float jetPackPower = 1f;
+        internal float currentPower = 1f;
 
         [KSPField(guiName = "AutoRotate", guiActive = true, isPersistant = true), UI_Toggle(disabledText = "No", enabledText = "Yes")]
         public bool rotateOnMove = false;
@@ -53,8 +57,7 @@ namespace EVAEnhancements
 
         // Pointers to various objects
         internal KerbalEVA eva = null;
-        internal GameObject navBall;
-        internal NavBall ball;
+        internal ScreenSafeUISlideTab navBallTab;
 
         // Flags
         internal bool first = true;
@@ -73,25 +76,18 @@ namespace EVAEnhancements
             this.Fields["kerbalProfession"].guiName = myKerbal.experienceTrait.Title;
             kerbalProfession = "Level " + myKerbal.experienceLevel.ToString();
 
-            // Configure the jetpack power slider
-            UI_FloatRange fr = (UI_FloatRange)this.Fields["jetPackPower"].uiControlFlight;
-            fr.minValue = settings.minJetPackPower;
-            fr.maxValue = settings.maxJetPackPower;
-            fr.stepIncrement = settings.stepJetPackPower;
-
-            // Find the navball
-            navBall = GameObject.Find("NavBall");
-            ball = navBall.GetComponent<NavBall>();
+            
 
         }
 
         public override void OnUpdate()
         {
-            // Only run processing if the EVA'd Kerbal is the active vessel
+            base.OnUpdate();
+
+            // Only run if the EVA'd Kerbal is the active vessel
             if (this.vessel == FlightGlobals.ActiveVessel)
             {
                 // Toggle precision node
-                // TODO: maybe replace these messages with a different indicator
                 if (GameSettings.PRECISION_CTRL.GetKeyDown())
                 {
                     precisionControls = !precisionControls;
@@ -111,7 +107,7 @@ namespace EVAEnhancements
                     rotateOnMove = !rotateOnMove;
                 }
 
-                // Set point to KerbalEVA
+                // Set pointer to KerbalEVA
                 if (eva == null)
                 {
                     eva = FlightGlobals.ActiveVessel.GetComponent<KerbalEVA>();
@@ -120,104 +116,104 @@ namespace EVAEnhancements
 
                 if (eva.JetpackDeployed)
                 {
-                    GameSettings.EVA_ROTATE_ON_MOVE = rotateOnMove;
-
                     if (first)
                     {
+                        // Grab original values
                         origLinPower = eva.linPower;
                         origRotPower = eva.rotPower;
                         origPropConsumption = eva.PropellantConsumption;
                         first = false;
                     }
 
+                    // Make sure this is set properly
+                    GameSettings.EVA_ROTATE_ON_MOVE = rotateOnMove;
+
+                    // Determine current jetpack power
+                    
                     if (precisionControls)
                     {
-                        eva.linPower = origLinPower * jetPackPower * settings.precisionFactor;
-                        eva.rotPower = origRotPower * jetPackPower * settings.precisionFactor;
-                        eva.PropellantConsumption = origPropConsumption * jetPackPower * settings.precisionFactor;
-                    }
-                    else
-                    {
-                        eva.linPower = origLinPower * jetPackPower;
-                        eva.rotPower = origRotPower * jetPackPower;
-                        eva.PropellantConsumption = origPropConsumption * jetPackPower;
+                        currentPower = settings.precisionModePower;
+                    } else {
+                        currentPower = jetPackPower;
                     }
 
+                    // Set the jetpack power and fuel consumption
+                    eva.linPower = origLinPower * currentPower;
+                    eva.rotPower = origRotPower * currentPower;
+                    eva.PropellantConsumption = origPropConsumption * currentPower;
+
+                    // Detect key presses
                     if (Input.GetKey(settings.pitchDown))
                     {
-                        EVAController.Instance.UpdateEVAFlightProperties(-1, 0, jetPackPower);
+                        EVAController.Instance.UpdateEVAFlightProperties(-1, 0, currentPower);
 
                     }
                     if (Input.GetKey(settings.pitchUp))
                     {
-                        EVAController.Instance.UpdateEVAFlightProperties(1, 0, jetPackPower);
+                        EVAController.Instance.UpdateEVAFlightProperties(1, 0, currentPower);
                     }
                     if (Input.GetKey(settings.rollLeft))
                     {
-                        EVAController.Instance.UpdateEVAFlightProperties(0, -1, jetPackPower);
+                        EVAController.Instance.UpdateEVAFlightProperties(0, -1, currentPower);
                     }
                     if (Input.GetKey(settings.rollRight))
                     {
-                        EVAController.Instance.UpdateEVAFlightProperties(0, 1, jetPackPower);
+                        EVAController.Instance.UpdateEVAFlightProperties(0, 1, currentPower);
                     }
 
                 }
 
             }
-            base.OnUpdate();
+            
         }
 
         internal void LateUpdate()
         {
+            // Only process is this is current vessel and the eva pointer was set previously
             if (this.vessel == FlightGlobals.ActiveVessel && eva != null)
             {
-                // Change rotation offset so it points in the direction the Kerbal is facing
-                ball.rotationOffset = new Vector3(0, 0, 0);
+                
 
+                // Display the navball
                 if (expandUI)
                 {
-                    // Display navball
                     foreach (ScreenSafeUISlideTab tab in FlightEVA.fetch.EVACollapseGroups)
                     {
                         if (tab.name == "EVACollapse_navball")
-                            tab.Expand();
+                            navBallTab = tab;
                     }
                     expandUI = false;
                 }
+                navBallTab.Expand();
 
 
                 if (eva.JetpackDeployed)
                 {
-                    // Set throttle to jetpack power
-                    if (precisionControls)
+                    // Set throttle to current jetpack power
+                    FlightUIController.fetch.thr.setValue(currentPower);
+
+                    // Turn on RCS light for jetpack
+                    FlightUIController.fetch.rcs.renderer.material.mainTexture = FlightUIController.fetch.rcs.ledColors[1];
+
+                    // Turn on SAS light for "EVA Rotate on Move"
+                    if (GameSettings.EVA_ROTATE_ON_MOVE)
                     {
-                        FlightUIController.fetch.thr.setValue(jetPackPower * settings.precisionFactor);
+                        FlightUIController.fetch.SAS.renderer.material.mainTexture = FlightUIController.fetch.SAS.ledColors[1];
                     }
                     else
                     {
-                        FlightUIController.fetch.thr.setValue(jetPackPower);
+                        FlightUIController.fetch.SAS.renderer.material.mainTexture = FlightUIController.fetch.SAS.ledColors[0];
                     }
 
-                    // Turn on RCS light
-                    FlightUIController.fetch.rcs.renderer.material.mainTexture = FlightUIController.fetch.rcs.ledColors[1];
-
                 }
                 else
                 {
-                    // Set throttle to 0 and turn off RCS light
+                    // Set throttle to 0 and turn off lights
                     FlightUIController.fetch.thr.setValue(0f);
                     FlightUIController.fetch.rcs.renderer.material.mainTexture = FlightUIController.fetch.rcs.ledColors[0];
-                }
-
-                // Toggle SAS light for "EVA Rotate on Move"
-                if (GameSettings.EVA_ROTATE_ON_MOVE)
-                {
-                    FlightUIController.fetch.SAS.renderer.material.mainTexture = FlightUIController.fetch.SAS.ledColors[1];
-                }
-                else
-                {
                     FlightUIController.fetch.SAS.renderer.material.mainTexture = FlightUIController.fetch.SAS.ledColors[0];
                 }
+
 
             }
 

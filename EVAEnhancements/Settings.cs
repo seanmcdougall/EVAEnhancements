@@ -11,14 +11,7 @@ namespace EVAEnhancements
     {
         public Settings(String FilePath) : base(FilePath) { }
 
-        [Persistent]
-        public float minJetPackPower = 0.01f;
-
-        [Persistent]
-        public float maxJetPackPower = 1f;
-
-        [Persistent]
-        public float stepJetPackPower = 0.05f;
+        public float precisionModePower = 0.1f;
 
         [Persistent]
         public KeyCode pitchDown = KeyCode.Alpha2;
@@ -31,9 +24,6 @@ namespace EVAEnhancements
 
         [Persistent]
         public KeyCode rollRight = KeyCode.C;
-
-        [Persistent]
-        public float precisionFactor = 0.1f;
 
     }
 }

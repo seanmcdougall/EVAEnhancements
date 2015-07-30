@@ -49,22 +49,15 @@
   <ItemGroup>
     <Compile Include="AddModule.cs" />
     <Compile Include="EVAController.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="EVAEnhancements.cs" />
     <Compile Include="ConfigNodeStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="EVAEnhancements.cfg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="EVAEnhancements.version">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="NOTES.txt" />
-    <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
