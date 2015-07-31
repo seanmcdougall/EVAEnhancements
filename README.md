@@ -13,10 +13,10 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
 
 - Pitch and roll can now be controlled with the keyboard.  No more awkward mouse clicking and dragging... you can now do backflips and cartwheels on the Mun!  By default the controls are mapped as follows:
   
-  Pitch Down - Alpha2
-  Pitch Up - X
-  Roll Left - Z
-  Roll Right - C
+  - Pitch Down - Alpha2
+  - Pitch Up - X
+  - Roll Left - Z
+  - Roll Right - C
 
   I have found these work well in conjunction with the standard WASDQE controls (while letting you keep your right hand on the mouse for camera control), but if you wish to remap them you can edit the GameData/EVAEnhancements/EVAEnhancements.cfg file that gets created after the first run.
   Keycodes can be found here:  http://docs.unity3d.com/ScriptReference/KeyCode.html
