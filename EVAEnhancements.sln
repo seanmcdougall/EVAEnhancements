@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVAEnhancements", "EVAEnhan
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{352FEA4A-C654-4B82-8F69-814F1E6C18FE}"
 	ProjectSection(SolutionItems) = preProject
+		Changelog.md = Changelog.md
 		EVAEnhancements.version = EVAEnhancements.version
 		LICENSE.md = LICENSE.md
 		README.md = README.md
