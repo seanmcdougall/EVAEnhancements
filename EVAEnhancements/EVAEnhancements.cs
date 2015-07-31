@@ -36,29 +36,29 @@ namespace EVAEnhancements
 
     public class EVAEnhancements : PartModule
     {
+        // Action menu fields
+
         [KSPField(guiActive = true, guiName = "Profession", isPersistant = true)]
-        public string kerbalProfession = null;
+        string kerbalProfession = null;
 
         [KSPField(guiName = "Jetpack", guiFormat = "P0", guiActive = true, isPersistant = true), UI_FloatRange(minValue = 0.01f, maxValue = 1f, stepIncrement = 0.05f)]
-        public float jetPackPower = 1f;
-        internal float currentPower = 1f;
+        float jetPackPower = 1f;
+        float currentPower = 1f;
 
-        [KSPField(guiName = "AutoRotate", guiActive = true, isPersistant = true), UI_Toggle(disabledText = "No", enabledText = "Yes")]
-        public bool rotateOnMove = false;
-
-        public bool precisionControls = false;
+        bool rotateOnMove = false;
+        bool precisionControls = false;
 
         // Define settings file
-        internal Settings settings = new Settings("EVAEnhancements.cfg");
+        Settings settings = new Settings("EVAEnhancements.cfg");
 
         // Variables to keep track of original values
-        internal float origLinPower = 0f;
-        internal float origRotPower = 0f;
-        internal float origPropConsumption = 0f;
+        float origLinPower = 0f;
+        float origRotPower = 0f;
+        float origPropConsumption = 0f;
 
         // Pointers to various objects
-        internal KerbalEVA eva = null;
-        internal static ScreenSafeUISlideTab navBallTab = null;
+        KerbalEVA eva = null;
+        static ScreenSafeUISlideTab navBallTab = null;
 
         public override void OnStart(PartModule.StartState state)
         {
