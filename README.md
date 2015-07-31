@@ -26,6 +26,8 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
 
 - jetpack power can now be modified any time through a slider in the EVA right-click action menu.  Fuel usage is scaled accordingly.
 
+- the default jetpack power level can be set in the EVAEnhancements.cfg file by changing the "defaultJetPackPower" setting to a number between 0.01 and 1.00.
+
 - precision controls can now be toggled using the same key as in normal flight mode (default is CapsLock).  This automatically sets your jetpack power to 10% for finer control.
 
 - finally, the Nav Ball is now visible and customized for EVA mode.  
@@ -33,7 +35,7 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
   - the RCS indicator will light to show your if jetpack is enabled.  
   - the SAS indicator will light to show if "rotate on move" is enabled (only if the jetpack is on though)
 
-  ##Credits
+##Credits
 
-  - TriggerAu for the KSPPluginFramework (http://forum.kerbalspaceprogram.com/threads/66503-KSP-Plugin-Framework).  Copyright (c) 2014 David Tregoning, used under the MIT license.
-  - nlight for the original EVAController module, part of Advanced Fly-By-Wire (https://github.com/AlexanderDzhoganov/ksp-advanced-flybywire).  Copyright (c) 2014 Alexander Dzhoganov, used under the MIT license.
+- TriggerAu for the KSPPluginFramework (http://forum.kerbalspaceprogram.com/threads/66503-KSP-Plugin-Framework).  Copyright (c) 2014 David Tregoning, used under the MIT license.
+- nlight for the original EVAController module, part of Advanced Fly-By-Wire (https://github.com/AlexanderDzhoganov/ksp-advanced-flybywire).  Copyright (c) 2014 Alexander Dzhoganov, used under the MIT license.

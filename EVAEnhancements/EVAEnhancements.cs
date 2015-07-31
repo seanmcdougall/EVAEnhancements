@@ -73,7 +73,8 @@ namespace EVAEnhancements
             this.Fields["kerbalProfession"].guiName = myKerbal.experienceTrait.Title;
             kerbalProfession = "Level " + myKerbal.experienceLevel.ToString();
 
-
+            // Set default jet pack power
+            jetPackPower = settings.defaultJetPackPower;
 
         }
 

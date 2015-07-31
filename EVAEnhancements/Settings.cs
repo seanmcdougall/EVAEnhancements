@@ -14,6 +14,9 @@ namespace EVAEnhancements
         public float precisionModePower = 0.1f;
 
         [Persistent]
+        public float defaultJetPackPower = 1f;
+
+        [Persistent]
         public KeyCode pitchDown = KeyCode.Alpha2;
 
         [Persistent]
