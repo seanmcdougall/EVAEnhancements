@@ -1,0 +1,166 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+namespace EVAEnhancements
+{
+    internal class SettingsWindow
+    {
+        internal bool showWindow;
+        internal Rect windowRect;
+        internal Rect dragRect;
+        internal Vector2 scrollPos = new Vector2(0f, 0f);
+        internal int windowId;
+        internal ModStyle modStyle;
+        internal Settings settings;
+
+        private bool settingPitchDown = false;
+        private bool settingPitchUp = false;
+        private bool settingRollLeft = false;
+        private bool settingRollRight = false;
+
+        internal SettingsWindow(ModStyle m, Settings s)
+        {
+            modStyle = m;
+            settings = s;
+            showWindow = false;
+            windowRect = new Rect((Screen.width - 250) / 2, (Screen.height - 300) / 2, 250, 300);
+            windowId = GUIUtility.GetControlID(FocusType.Passive);
+        }
+
+        internal void draw()
+        {
+            if (showWindow)
+            {
+                windowRect = GUILayout.Window(windowId, windowRect, drawWindow, "");
+            }
+        }
+
+        internal void drawWindow(int id)
+        {
+            GUI.skin = modStyle.skin;
+            GUILayout.BeginVertical();
+            GUILayout.Label("EVA Enhancements Settings", modStyle.guiStyles["titleLabel"]);
+            GUILayout.EndVertical();
+            if (Event.current.type == EventType.Repaint)
+            {
+                dragRect = GUILayoutUtility.GetLastRect();
+            }
+            GUILayout.BeginVertical();
+            scrollPos = GUILayout.BeginScrollView(scrollPos);
+
+            GUILayout.Label("Default Jetpack Power: " + settings.defaultJetPackPower.ToString("P0"));
+            float newJetPackPower = GUILayout.HorizontalSlider(settings.defaultJetPackPower, 0f, 1f);
+            if (newJetPackPower != settings.defaultJetPackPower)
+            {
+                settings.defaultJetPackPower = newJetPackPower;
+                settings.Save();
+            }
+            GUILayout.Space(10f);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Pitch Down",GUILayout.ExpandWidth(true));
+
+            if (settingPitchDown)
+            {
+                GUILayout.Label("Type a new key...");
+                if (Event.current.isKey)
+                {
+                    settings.pitchDown = Event.current.keyCode;
+                    settings.Save();
+                    settingPitchDown = false;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button(new GUIContent(settings.pitchDown.ToString()),GUILayout.Width(150)))
+                {
+                    settingPitchDown = true;
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Pitch Up",GUILayout.ExpandWidth(true));
+
+            if (settingPitchUp)
+            {
+                GUILayout.Label("Type a new key...");
+                if (Event.current.isKey)
+                {
+                    settings.pitchUp = Event.current.keyCode;
+                    settings.Save();
+                    settingPitchUp = false;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button(new GUIContent(settings.pitchUp.ToString()),GUILayout.Width(150)))
+                {
+                    settingPitchUp = true;
+                }
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Roll Left",GUILayout.ExpandWidth(true));
+
+            if (settingRollLeft)
+            {
+                GUILayout.Label("Type a new key...");
+                if (Event.current.isKey)
+                {
+                    settings.rollLeft = Event.current.keyCode;
+                    settings.Save();
+                    settingRollLeft = false;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button(new GUIContent(settings.rollLeft.ToString()),GUILayout.Width(150)))
+                {
+                    settingRollLeft = true;
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Roll Right",GUILayout.ExpandWidth(true));
+
+            if (settingRollRight)
+            {
+                GUILayout.Label("Type a new key...");
+                if (Event.current.isKey)
+                {
+                    settings.rollRight = Event.current.keyCode;
+                    settings.Save();
+                    settingRollRight = false;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button(new GUIContent(settings.rollRight.ToString()),GUILayout.Width(150)))
+                {
+                    settingRollRight = true;
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndScrollView();
+            GUILayout.Space(25f);
+            GUILayout.EndVertical();
+
+            if (GUI.Button(new Rect(windowRect.width - 18, 3f, 15f, 15f), new GUIContent("X")))
+            {
+                showWindow = false;
+            }
+            
+            GUI.DragWindow(dragRect);
+
+        }
+
+    }
+}

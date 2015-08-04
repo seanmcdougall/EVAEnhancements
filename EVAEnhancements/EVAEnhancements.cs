@@ -43,6 +43,12 @@ namespace EVAEnhancements
 
         [KSPField(guiName = "Jetpack", guiFormat = "P0", guiActive = true, isPersistant = true), UI_FloatRange(minValue = 0.01f, maxValue = 1f, stepIncrement = 0.05f)]
         float jetPackPower = 1f;
+
+        [KSPEvent(guiName = "Settings", guiActive = true, guiActiveEditor = false)]
+        public void toggleSettings () {
+            settingsWindow.showWindow = !settingsWindow.showWindow;
+        }
+
         float currentPower = 1f;
 
         bool rotateOnMove = false;
@@ -60,6 +66,10 @@ namespace EVAEnhancements
         KerbalEVA eva = null;
         static ScreenSafeUISlideTab navBallTab = null;
 
+        // Settings window
+        static SettingsWindow settingsWindow = null;
+        static ModStyle modStyle = null;
+
         public override void OnStart(PartModule.StartState state)
         {
             base.OnStart(state);
@@ -75,6 +85,18 @@ namespace EVAEnhancements
 
             // Set default jet pack power
             jetPackPower = settings.defaultJetPackPower;
+
+            // Create style
+            if (modStyle == null)
+            {
+                modStyle = new ModStyle();
+            }
+
+            // Create settings window
+            if (settingsWindow == null)
+            {
+                settingsWindow = new SettingsWindow(modStyle, settings);
+            }
 
         }
 
@@ -203,6 +225,12 @@ namespace EVAEnhancements
 
             }
 
+        }
+
+        internal void OnGUI()
+        {
+            GUI.skin = modStyle.skin;
+            settingsWindow.draw();
         }
 
     }
