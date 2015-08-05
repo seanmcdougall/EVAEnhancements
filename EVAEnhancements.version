@@ -2,10 +2,11 @@
 	"NAME":"EVA Enhancements",
 	"URL":"https://raw.githubusercontent.com/seanmcdougall/EVAEnhancements/master/EVAEnhancements.version",
 	"DOWNLOAD":"https://github.com/seanmcdougall/EVAEnhancements",
+	"CHANGE_LOG_URL":"https://raw.githubusercontent.com/seanmcdougall/EVAEnhancements/master/CHANGELOG.md",
 	"VERSION": {
 		"MAJOR":0,
 		"MINOR":9,
-		"PATCH":1,
+		"PATCH":2,
 		"BUILD":0
 	},
 	"KSP_VERSION": {
