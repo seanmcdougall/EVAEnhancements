@@ -18,15 +18,13 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
   - Roll Left - Z
   - Roll Right - C
 
-  I have found these work well in conjunction with the standard WASDQE controls (while letting you keep your right hand on the mouse for camera control), but if you wish to remap them you can edit the GameData/EVAEnhancements/EVAEnhancements.cfg file that gets created after the first run.
-  Keycodes can be found here:  http://docs.unity3d.com/ScriptReference/KeyCode.html
-  A GUI settings window for on-the-fly remapping may be added in a future release.
-
+  I have found these work well in conjunction with the standard WASDQE controls (while letting you keep your right hand on the mouse for camera control).  If you wish to remap them you can use the "Settings" window, accessible from the EVA right-click action menu.
+  
 - the EVA "rotate on camera move" setting can now be toggled any time by hitting the SAS toggle (default T).  Enabling it can make some EVA navigation a bit easier, but disabling it gives you more control.
 
 - jetpack power can now be modified any time through a slider in the EVA right-click action menu.  Fuel usage is scaled accordingly.
 
-- the default jetpack power level can be set in the EVAEnhancements.cfg file by changing the "defaultJetPackPower" setting to a number between 0.01 and 1.00.
+- the default jetpack power level can be set via the "Settings" window (see above).
 
 - precision controls can now be toggled using the same key as in normal flight mode (default is CapsLock).  This automatically sets your jetpack power to 10% for finer control.
 
