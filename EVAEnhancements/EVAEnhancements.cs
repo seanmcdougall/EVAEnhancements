@@ -55,7 +55,7 @@ namespace EVAEnhancements
         bool precisionControls = false;
 
         // Define settings file
-        Settings settings = new Settings("EVAEnhancements.cfg");
+        static Settings settings = new Settings("EVAEnhancements.cfg");
 
         // Variables to keep track of original values
         float origLinPower = 0f;

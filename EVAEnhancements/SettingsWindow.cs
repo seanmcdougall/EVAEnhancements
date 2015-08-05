@@ -65,7 +65,7 @@ namespace EVAEnhancements
 
             if (settingPitchDown)
             {
-                GUILayout.Label("Type a new key...");
+                GUILayout.Label("<Press any key>");
                 if (Event.current.isKey)
                 {
                     settings.pitchDown = Event.current.keyCode;
@@ -75,7 +75,7 @@ namespace EVAEnhancements
             }
             else
             {
-                if (GUILayout.Button(new GUIContent(settings.pitchDown.ToString()),GUILayout.Width(150)))
+                if (GUILayout.Button(new GUIContent(settings.pitchDown.ToString()),GUILayout.Width(125)))
                 {
                     settingPitchDown = true;
                 }
@@ -87,7 +87,7 @@ namespace EVAEnhancements
 
             if (settingPitchUp)
             {
-                GUILayout.Label("Type a new key...");
+                GUILayout.Label("<Press any key>");
                 if (Event.current.isKey)
                 {
                     settings.pitchUp = Event.current.keyCode;
@@ -97,7 +97,7 @@ namespace EVAEnhancements
             }
             else
             {
-                if (GUILayout.Button(new GUIContent(settings.pitchUp.ToString()),GUILayout.Width(150)))
+                if (GUILayout.Button(new GUIContent(settings.pitchUp.ToString()),GUILayout.Width(125)))
                 {
                     settingPitchUp = true;
                 }
@@ -110,7 +110,7 @@ namespace EVAEnhancements
 
             if (settingRollLeft)
             {
-                GUILayout.Label("Type a new key...");
+                GUILayout.Label("<Press any key>");
                 if (Event.current.isKey)
                 {
                     settings.rollLeft = Event.current.keyCode;
@@ -120,7 +120,7 @@ namespace EVAEnhancements
             }
             else
             {
-                if (GUILayout.Button(new GUIContent(settings.rollLeft.ToString()),GUILayout.Width(150)))
+                if (GUILayout.Button(new GUIContent(settings.rollLeft.ToString()),GUILayout.Width(125)))
                 {
                     settingRollLeft = true;
                 }
@@ -132,7 +132,7 @@ namespace EVAEnhancements
 
             if (settingRollRight)
             {
-                GUILayout.Label("Type a new key...");
+                GUILayout.Label("<Press any key>");
                 if (Event.current.isKey)
                 {
                     settings.rollRight = Event.current.keyCode;
@@ -142,7 +142,7 @@ namespace EVAEnhancements
             }
             else
             {
-                if (GUILayout.Button(new GUIContent(settings.rollRight.ToString()),GUILayout.Width(150)))
+                if (GUILayout.Button(new GUIContent(settings.rollRight.ToString()),GUILayout.Width(125)))
                 {
                     settingRollRight = true;
                 }
