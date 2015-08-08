@@ -8,23 +8,26 @@ namespace EVAEnhancements
 {
     internal class SettingsWindow
     {
+        internal ApplicationLauncherButton launcherButton = null;
+        internal IButton blizzyButton = null;
+
         internal bool showWindow;
         internal Rect windowRect;
         internal Rect dragRect;
         internal Vector2 scrollPos = new Vector2(0f, 0f);
         internal int windowId;
-        internal ModStyle modStyle;
         internal Settings settings;
+        internal ModStyle modStyle;
 
         private bool settingPitchDown = false;
         private bool settingPitchUp = false;
         private bool settingRollLeft = false;
         private bool settingRollRight = false;
 
-        internal SettingsWindow(ModStyle m, Settings s)
+        internal SettingsWindow(Settings s,ModStyle m)
         {
-            modStyle = m;
             settings = s;
+            modStyle = m;
             showWindow = false;
             windowRect = new Rect((Screen.width - 250) / 2, (Screen.height - 300) / 2, 250, 300);
             windowId = GUIUtility.GetControlID(FocusType.Passive);
@@ -34,6 +37,7 @@ namespace EVAEnhancements
         {
             if (showWindow)
             {
+                GUI.skin = modStyle.skin;
                 windowRect = GUILayout.Window(windowId, windowRect, drawWindow, "");
             }
         }
@@ -149,6 +153,23 @@ namespace EVAEnhancements
             }
             GUILayout.EndHorizontal();
 
+            bool newUseStockToolbar;
+            if (ToolbarManager.ToolbarAvailable)
+            {
+                GUILayout.Space(10f);
+                newUseStockToolbar = GUILayout.Toggle(settings.useStockToolbar, "Use stock toolbar");
+            }
+            else
+            {
+                newUseStockToolbar = true;
+            }
+
+            if (newUseStockToolbar != settings.useStockToolbar)
+            {
+                settings.useStockToolbar = newUseStockToolbar;
+                settings.Save();
+            }
+
             GUILayout.EndScrollView();
             GUILayout.Space(25f);
             GUILayout.EndVertical();
@@ -156,8 +177,9 @@ namespace EVAEnhancements
             if (GUI.Button(new Rect(windowRect.width - 18, 3f, 15f, 15f), new GUIContent("X")))
             {
                 showWindow = false;
+                launcherButton.SetFalse();
             }
-            
+
             GUI.DragWindow(dragRect);
 
         }

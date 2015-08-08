@@ -9,7 +9,7 @@ namespace EVAEnhancements
 {
     public class Settings : ConfigNodeStorage
     {
-        public Settings(String FilePath) : base(FilePath) { }
+        internal Settings(String FilePath) : base(FilePath) { }
 
         public float precisionModePower = 0.1f;
 
@@ -27,6 +27,9 @@ namespace EVAEnhancements
 
         [Persistent]
         public KeyCode rollRight = KeyCode.C;
+
+        [Persistent]
+        public bool useStockToolbar = true;
 
     }
 }

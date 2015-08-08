@@ -60,5 +60,12 @@ namespace EVAEnhancements
 
         }
 
+        public Texture2D GetImage(String path, int width, int height)
+        {
+            Texture2D img = new Texture2D(width, height, TextureFormat.ARGB32, false);
+            img = GameDatabase.Instance.GetTexture(path, false);
+            return img;
+        }
+
     }
 }

@@ -6,34 +6,6 @@ using UnityEngine;
 
 namespace EVAEnhancements
 {
-    [KSPAddon(KSPAddon.Startup.Flight, false)]
-    public class EVAEnhancementsBehaviour : MonoBehaviour
-    {
-        internal static GameObject navBall = null;
-        internal static NavBall ball = null;
-
-        public void Update()
-        {
-            if (navBall == null)
-            {
-                // Get a pointer to the navball
-                navBall = GameObject.Find("NavBall");
-                ball = navBall.GetComponent<NavBall>();
-            }
-            if (FlightGlobals.ActiveVessel.isEVA)
-            {
-                // Change rotation offset so it points in the direction the Kerbal is facing
-                ball.rotationOffset = new Vector3(0, 0, 0);
-            }
-            else
-            {
-                ball.rotationOffset = new Vector3(90f, 0, 0);
-            }
-
-        }
-    }
-
-
     public class EVAEnhancements : PartModule
     {
         // Action menu fields
@@ -41,21 +13,12 @@ namespace EVAEnhancements
         [KSPField(guiActive = true, guiName = "Profession", isPersistant = true)]
         string kerbalProfession = null;
 
-        [KSPField(guiName = "Jetpack", guiFormat = "P0", guiActive = true, isPersistant = true), UI_FloatRange(minValue = 0.01f, maxValue = 1f, stepIncrement = 0.05f)]
+        [KSPField(guiName = "Jetpack", guiFormat = "P0", guiActive = true, isPersistant = true), UI_FloatRange(minValue = 0.01f, maxValue = 1f, stepIncrement = 0.01f)]
         float jetPackPower = 1f;
-
-        [KSPEvent(guiName = "Settings", guiActive = true, guiActiveEditor = false)]
-        public void toggleSettings () {
-            settingsWindow.showWindow = !settingsWindow.showWindow;
-        }
-
         float currentPower = 1f;
 
         bool rotateOnMove = false;
         bool precisionControls = false;
-
-        // Define settings file
-        static Settings settings = new Settings("EVAEnhancements.cfg");
 
         // Variables to keep track of original values
         float origLinPower = 0f;
@@ -66,9 +29,7 @@ namespace EVAEnhancements
         KerbalEVA eva = null;
         static ScreenSafeUISlideTab navBallTab = null;
 
-        // Settings window
-        static SettingsWindow settingsWindow = null;
-        static ModStyle modStyle = null;
+        static Settings settings = new Settings("EVAEnhancements.cfg");
 
         public override void OnStart(PartModule.StartState state)
         {
@@ -86,17 +47,6 @@ namespace EVAEnhancements
             // Set default jet pack power
             jetPackPower = settings.defaultJetPackPower;
 
-            // Create style
-            if (modStyle == null)
-            {
-                modStyle = new ModStyle();
-            }
-
-            // Create settings window
-            if (settingsWindow == null)
-            {
-                settingsWindow = new SettingsWindow(modStyle, settings);
-            }
 
         }
 
@@ -225,12 +175,6 @@ namespace EVAEnhancements
 
             }
 
-        }
-
-        internal void OnGUI()
-        {
-            GUI.skin = modStyle.skin;
-            settingsWindow.draw();
         }
 
     }

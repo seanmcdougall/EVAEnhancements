@@ -1,5 +1,8 @@
 #Changelog
 
+## 0.9.3 - 2015/08/08
+- removed settings from the action menu and added stock application launcher and Blizzy78 toolbar support instead.
+
 ## 0.9.2 - 2015/08/05
 - added settings window (accessible from EVA right-click action menu)
 

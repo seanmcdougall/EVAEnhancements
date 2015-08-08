@@ -37,3 +37,4 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
 
 - TriggerAu for the KSPPluginFramework (http://forum.kerbalspaceprogram.com/threads/66503-KSP-Plugin-Framework).  Copyright (c) 2014 David Tregoning, used under the MIT license.
 - nlight for the original EVAController module, part of Advanced Fly-By-Wire (https://github.com/AlexanderDzhoganov/ksp-advanced-flybywire).  Copyright (c) 2014 Alexander Dzhoganov, used under the MIT license.
+- Blizzy78 for the ToolbarWrapper.  Copyright (c) 2013-2015, Maik Schreiber.
