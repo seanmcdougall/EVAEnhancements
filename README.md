@@ -18,13 +18,13 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
   - Roll Left - Z
   - Roll Right - C
 
-  I have found these work well in conjunction with the standard WASDQE controls (while letting you keep your right hand on the mouse for camera control).  If you wish to remap them you can use the "Settings" window, accessible from the EVA right-click action menu.
+  I have found these work well in conjunction with the standard WASDQE controls (while letting you keep your right hand on the mouse for camera control).  If you wish to remap them you can use the "Settings" window, accessible from the stock application launcher or Blizzy78 toolbar.
   
 - the EVA "rotate on camera move" setting can now be toggled any time by hitting the SAS toggle (default T).  Enabling it can make some EVA navigation a bit easier, but disabling it gives you more control.
 
 - jetpack power can now be modified any time through a slider in the EVA right-click action menu.  Fuel usage is scaled accordingly.
 
-- the default jetpack power level can be set via the "Settings" window (see above).
+- the default jetpack power level can be set via the "Settings" window.
 
 - precision controls can now be toggled using the same key as in normal flight mode (default is CapsLock).  This automatically sets your jetpack power to 10% for finer control.
 
