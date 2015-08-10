@@ -24,10 +24,10 @@ namespace EVAEnhancements
         private bool settingRollLeft = false;
         private bool settingRollRight = false;
 
-        internal SettingsWindow(Settings s,ModStyle m)
+        internal SettingsWindow()
         {
-            settings = s;
-            modStyle = m;
+            settings = SettingsWrapper.Instance.gameSettings;
+            modStyle = SettingsWrapper.Instance.modStyle;
             showWindow = false;
             windowRect = new Rect((Screen.width - 250) / 2, (Screen.height - 300) / 2, 250, 300);
             windowId = GUIUtility.GetControlID(FocusType.Passive);

@@ -12,7 +12,6 @@ namespace EVAEnhancements
         
 
         Settings settings = SettingsWrapper.Instance.gameSettings;
-        ModStyle modStyle = SettingsWrapper.Instance.modStyle;
         SettingsWindow settingsWindow = null;
 
         bool visibleUI = true;
@@ -21,8 +20,6 @@ namespace EVAEnhancements
         {
             settings.Load();
             settings.Save();
-
-            modStyle = new ModStyle();
 
             if (settings.useStockToolbar)
             {
@@ -39,7 +36,7 @@ namespace EVAEnhancements
             GameEvents.onShowUI.Add(showUI);
             GameEvents.onHideUI.Add(hideUI);
 
-            settingsWindow = new SettingsWindow(settings, modStyle);
+            settingsWindow = new SettingsWindow();
             addLauncherButtons();
         }
 
@@ -63,7 +60,7 @@ namespace EVAEnhancements
         {
             if (settingsWindow.launcherButton == null && settings.useStockToolbar)
             {
-                settingsWindow.launcherButton = ApplicationLauncher.Instance.AddModApplication(showWindow, hideWindow, null, null, null, null, ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW, modStyle.GetImage("EVAEnhancements/textures/toolbar", 38, 38));
+                settingsWindow.launcherButton = ApplicationLauncher.Instance.AddModApplication(showWindow, hideWindow, null, null, null, null, ApplicationLauncher.AppScenes.FLIGHT | ApplicationLauncher.AppScenes.MAPVIEW, SettingsWrapper.Instance.modStyle.GetImage("EVAEnhancements/textures/toolbar", 38, 38));
             }
         }
 
