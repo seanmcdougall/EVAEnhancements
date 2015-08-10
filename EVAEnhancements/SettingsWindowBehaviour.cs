@@ -11,9 +11,9 @@ namespace EVAEnhancements
     {
         
 
-        Settings settings = new Settings("EVAEnhancements.cfg");
+        Settings settings = SettingsWrapper.Instance.gameSettings;
+        ModStyle modStyle = SettingsWrapper.Instance.modStyle;
         SettingsWindow settingsWindow = null;
-        ModStyle modStyle;
 
         bool visibleUI = true;
 

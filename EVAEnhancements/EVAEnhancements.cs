@@ -29,7 +29,7 @@ namespace EVAEnhancements
         KerbalEVA eva = null;
         static ScreenSafeUISlideTab navBallTab = null;
 
-        static Settings settings = new Settings("EVAEnhancements.cfg");
+        Settings settings = SettingsWrapper.Instance.gameSettings;
 
         public override void OnStart(PartModule.StartState state)
         {

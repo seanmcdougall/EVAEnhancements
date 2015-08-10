@@ -46,7 +46,7 @@ namespace EVAEnhancements
         {
             GUI.skin = modStyle.skin;
             GUILayout.BeginVertical();
-            GUILayout.Label("EVA Enhancements Settings", modStyle.guiStyles["titleLabel"]);
+            GUILayout.Label("EVA Enhancements - Settings", modStyle.guiStyles["titleLabel"]);
             GUILayout.EndVertical();
             if (Event.current.type == EventType.Repaint)
             {
