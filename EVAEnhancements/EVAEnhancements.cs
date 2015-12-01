@@ -27,8 +27,7 @@ namespace EVAEnhancements
 
         // Pointers to various objects
         KerbalEVA eva = null;
-        static ScreenSafeUISlideTab navBallTab = null;
-
+        
         Settings settings = SettingsWrapper.Instance.gameSettings;
 
         public override void OnStart(PartModule.StartState state)
@@ -133,17 +132,6 @@ namespace EVAEnhancements
             // Only process is this is current vessel and the eva pointer was set previously
             if (this.vessel == FlightGlobals.ActiveVessel && eva != null)
             {
-                // Display the navball
-                if (navBallTab == null)
-                {
-                    foreach (ScreenSafeUISlideTab tab in FlightEVA.fetch.EVACollapseGroups)
-                    {
-                        if (tab.name == "EVACollapse_navball")
-                            navBallTab = tab;
-                    }
-                }
-                navBallTab.Expand();
-
 
                 if (eva.JetpackDeployed)
                 {

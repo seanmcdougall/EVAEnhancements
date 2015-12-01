@@ -20,15 +20,7 @@ namespace EVAEnhancements
                 navBall = GameObject.Find("NavBall");
                 ball = navBall.GetComponent<NavBall>();
             }
-            if (FlightGlobals.ActiveVessel.isEVA)
-            {
-                // Change rotation offset so it points in the direction the Kerbal is facing
-                ball.rotationOffset = new Vector3(0, 0, 0);
-            }
-            else
-            {
-                ball.rotationOffset = new Vector3(90f, 0, 0);
-            }
         }
+
     }
 }
