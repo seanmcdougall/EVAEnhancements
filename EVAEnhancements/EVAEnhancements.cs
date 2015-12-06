@@ -27,7 +27,7 @@ namespace EVAEnhancements
 
         // Pointers to various objects
         KerbalEVA eva = null;
-        
+
         Settings settings = SettingsWrapper.Instance.gameSettings;
 
         public override void OnStart(PartModule.StartState state)
@@ -82,44 +82,49 @@ namespace EVAEnhancements
                     eva = FlightGlobals.ActiveVessel.GetComponent<KerbalEVA>();
                 }
 
-
-                if (eva.JetpackDeployed)
+                // Only process is this is current vessel and the eva pointer was set previously
+                if (this.vessel == FlightGlobals.ActiveVessel && eva != null)
                 {
-                    if (origLinPower == 0f)
+
+                    if (eva.JetpackDeployed)
                     {
-                        // Grab original values
-                        origLinPower = eva.linPower;
-                        origRotPower = eva.rotPower;
-                        origPropConsumption = eva.PropellantConsumption;
+                        if (origLinPower == 0f)
+                        {
+                            // Grab original values
+                            origLinPower = eva.linPower;
+                            origRotPower = eva.rotPower;
+                            origPropConsumption = eva.PropellantConsumption;
+                        }
+
+                        // Make sure this is set properly
+                        GameSettings.EVA_ROTATE_ON_MOVE = rotateOnMove;
+
+                        // Determine current jetpack power
+                        if (precisionControls)
+                        {
+                            currentPower = settings.precisionModePower;
+                        }
+                        else
+                        {
+                            currentPower = jetPackPower;
+                        }
+
+                        // Set the jetpack power and fuel consumption
+                        eva.linPower = origLinPower * currentPower;
+                        eva.rotPower = origRotPower * currentPower;
+                        eva.PropellantConsumption = origPropConsumption * currentPower;
+
+                        // Detect key presses
+                        if (Input.GetKey(settings.pitchDown))
+                            EVAController.Instance.UpdateEVAFlightProperties(-1, 0, jetPackPower);
+                        if (Input.GetKey(settings.pitchUp))
+                            EVAController.Instance.UpdateEVAFlightProperties(1, 0, jetPackPower);
+                        if (Input.GetKey(settings.rollLeft))
+                            EVAController.Instance.UpdateEVAFlightProperties(0, -1, jetPackPower);
+                        if (Input.GetKey(settings.rollRight))
+                            EVAController.Instance.UpdateEVAFlightProperties(0, 1, jetPackPower);
+
                     }
-
-                    // Make sure this is set properly
-                    GameSettings.EVA_ROTATE_ON_MOVE = rotateOnMove;
-
-                    // Determine current jetpack power
-                    if (precisionControls)
-                    {
-                        currentPower = settings.precisionModePower;
-                    }
-                    else
-                    {
-                        currentPower = jetPackPower;
-                    }
-
-                    // Set the jetpack power and fuel consumption
-                    eva.linPower = origLinPower * currentPower;
-                    eva.rotPower = origRotPower * currentPower;
-                    eva.PropellantConsumption = origPropConsumption * currentPower;
-
-                    // Detect key presses
-                    if (Input.GetKey(settings.pitchDown))
-                        EVAController.Instance.UpdateEVAFlightProperties(-1, 0, jetPackPower);
-                    if (Input.GetKey(settings.pitchUp))
-                        EVAController.Instance.UpdateEVAFlightProperties(1, 0, jetPackPower);
-                    if (Input.GetKey(settings.rollLeft))
-                        EVAController.Instance.UpdateEVAFlightProperties(0, -1, jetPackPower);
-                    if (Input.GetKey(settings.rollRight))
-                        EVAController.Instance.UpdateEVAFlightProperties(0, 1, jetPackPower);
 
                 }
 

@@ -28,7 +28,7 @@ Same as most other mods, copy the EVAEnhancements folder and all its contents to
 
 - precision controls can now be toggled using the same key as in normal flight mode (default is CapsLock).  This automatically sets your jetpack power to 10% for finer control.
 
-- finally, the Nav Ball is now visible and customized for EVA mode.  
+- finally, some customizations for the EVA Nav Ball.  
   - the throttle gauge will display your current jetpack power level between 0 and 100%. 
   - the RCS indicator will light to show your if jetpack is enabled.  
   - the SAS indicator will light to show if "rotate on move" is enabled (only if the jetpack is on though)
